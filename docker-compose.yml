@@ -1,0 +1,44 @@
+version: '3'
+services:
+  web:
+    build: vue/
+    ports:
+      - "80:80"
+    restart: always
+    networks:
+      - mynet
+  gate:
+    build: virus-gateway/
+    restart: always
+    ports:
+      - "7000:7000"
+    networks:
+      - mynet
+    depends_on:
+      - pos
+      - sta
+      - use
+      - vac
+  pos:
+    build: service-position/
+    restart: always
+    networks:
+      - mynet
+  sta:
+    build: service-status/
+    restart: always
+    networks:
+      - mynet
+  use:
+    build: service-user/
+    restart: always
+    networks:
+      - mynet
+  vac:
+    build: service-vacation/
+    restart: always
+    networks:
+      - mynet
+networks:
+  mynet:
+    external: true
